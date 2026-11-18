@@ -12,3 +12,8 @@ dist
 .DS_Store
 Thumbs.db
 *.log
+
+# Playwright
+test-results
+playwright-report
+test-screenshots

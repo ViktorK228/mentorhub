@@ -4,7 +4,7 @@ import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
 
 export default [
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'test-results', 'playwright-report'] },
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: { ecmaVersion: 'latest', sourceType: 'module', globals: globals.browser, parserOptions: { ecmaFeatures: { jsx: true } } },
@@ -19,4 +19,6 @@ export default [
       'react/prop-types': 'off',
     },
   },
+  // Конфіги та e2e-тести виконуються в Node
+  { files: ['*.config.js', 'e2e/**/*.js'], languageOptions: { globals: globals.node } },
 ]
