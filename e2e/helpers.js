@@ -1,6 +1,10 @@
 import { expect } from '@playwright/test'
 
-export const shot = (page, name) => page.screenshot({ path: `test-screenshots/${name}.png`, fullPage: true })
+/** Скриншот сторінки: прокрутка вгору, CSS-анімації/переходи домотуються до кінцевого стану */
+export async function shot(page, name) {
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await page.screenshot({ path: `test-screenshots/${name}.png`, fullPage: true, animations: 'disabled' })
+}
 
 export async function login(page, email = 'test@mentorhub.ua', password = '12345678') {
   await page.goto('/')
