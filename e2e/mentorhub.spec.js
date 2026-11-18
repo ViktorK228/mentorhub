@@ -141,4 +141,40 @@ test.describe('6. Мобільна ширина 375px', () => {
     await page.getByText('Олена Коваль').click()
     await check('booking')
   })
+
+  test('нижня панель: усі 4 вкладки повністю видимі, верхні вкладки сховані', async ({ page }) => {
+    await login(page)
+    await expect(page.getByRole('navigation', { name: 'Основна навігація' })).toBeHidden()
+    const bottom = page.getByRole('navigation', { name: 'Нижня навігація' })
+    await expect(bottom).toBeVisible()
+
+    const vw = page.viewportSize().width
+    const vh = page.viewportSize().height
+    const tabs = bottom.getByRole('button')
+    await expect(tabs).toHaveCount(4)
+    for (const [i, name] of ['Карта', 'Ментори', 'Зустрічі', 'Досягнення'].entries()) {
+      const btn = tabs.nth(i)
+      await expect(btn).toHaveAccessibleName(name)
+      await expect(btn).toBeInViewport({ ratio: 1 }) // кнопка цілком у вікні
+      const box = await btn.boundingBox()
+      expect(box.x).toBeGreaterThanOrEqual(0)
+      expect(box.x + box.width).toBeLessThanOrEqual(vw)
+      expect(box.y + box.height).toBeLessThanOrEqual(vh)
+      expect(box.height, `${name}: зона натиску ≥ 44px`).toBeGreaterThanOrEqual(44)
+      // підпис не обрізаний (truncate) і іконка на місці
+      const label = btn.locator('span').last()
+      await expect(label).toHaveText(name)
+      const clipped = await label.evaluate((el) => el.scrollWidth > el.clientWidth)
+      expect(clipped, `підпис «${name}» обрізаний`).toBe(false)
+      await expect(btn.locator('svg')).toBeVisible()
+    }
+
+    // перемикання працює і позначає активну вкладку
+    await tabs.nth(3).click()
+    await expect(tabs.nth(3)).toHaveAttribute('aria-current', 'page')
+    await expect(page.getByRole('heading', { name: 'Мої досягнення' })).toBeVisible()
+    await shot(page, '6-mobile-bottom-nav-light', { fullPage: false })
+    await page.getByRole('button', { name: /Увімкнути темну тему/ }).click()
+    await shot(page, '6-mobile-bottom-nav-dark', { fullPage: false })
+  })
 })

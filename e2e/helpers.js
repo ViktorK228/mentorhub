@@ -1,9 +1,10 @@
 import { expect } from '@playwright/test'
 
 /** Скриншот сторінки: прокрутка вгору, CSS-анімації/переходи домотуються до кінцевого стану */
-export async function shot(page, name) {
+// fullPage: false — лише видима область (там фіксовані панелі стоять на своїх місцях)
+export async function shot(page, name, { fullPage = true } = {}) {
   await page.evaluate(() => window.scrollTo(0, 0))
-  await page.screenshot({ path: `test-screenshots/${name}.png`, fullPage: true, animations: 'disabled' })
+  await page.screenshot({ path: `test-screenshots/${name}.png`, fullPage, animations: 'disabled' })
 }
 
 export async function login(page, email = 'test@mentorhub.ua', password = '12345678') {
@@ -14,7 +15,8 @@ export async function login(page, email = 'test@mentorhub.ua', password = '12345
   await expect(page.getByRole('button', { name: 'Вийти' })).toBeVisible()
 }
 
-export const nav = (page, name) => page.locator('header nav').getByRole('button', { name, exact: true }).click()
+// Видима панель навігації: верхня (≥640px) або нижня (<640px)
+export const nav = (page, name) => page.locator('nav:visible').getByRole('button', { name, exact: true }).click()
 
 /** Дата YYYY-MM-DD у локальному часовому поясі (той самий, що й у браузера Playwright) */
 export const isoDate = (offsetDays) => {

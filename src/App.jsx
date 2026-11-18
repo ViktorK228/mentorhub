@@ -58,7 +58,7 @@ export default function App() {
       <Header user={user} levelName={levelName} tab={tab} onNavigate={go} onLogout={() => setUser(null)}
         theme={theme} setTheme={setTheme} />
 
-      <main className="mx-auto max-w-7xl px-4 py-6">
+      <main className="mx-auto max-w-7xl px-4 pb-28 pt-6 sm:pb-6">
         {tab === 'map' && (
           <Roadmap user={user} done={done} doneCount={doneCount} toggle={toggle} notice={notice}
             bookings={bookings} goAchievements={() => go('achievements')} goMentors={() => go('mentors')} />
