@@ -1,0 +1,14 @@
+# Залежності та збірка
+node_modules
+dist
+
+# Локальні файли середовища та редактора
+.env
+.env.local
+*.local
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+*.log

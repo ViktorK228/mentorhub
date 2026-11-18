@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+/* Токени теми: значення беруться з CSS-змінних, які перемикає [data-theme] */
+@theme inline {
+  --font-sans: Montserrat, system-ui, sans-serif;
+  --color-primary: #3D3FA8;
+  --color-accent: #0F8A7A;
+  --color-success: #1E8E50;
+  --color-warning: #E8A317;
+  --color-error: #C9302C;
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-ink: var(--c-ink);
+  --color-muted: var(--c-muted);
+  --color-faint: var(--c-faint);
+  --color-line: var(--c-line);
+  --color-field: var(--c-field);
+  --color-btn: var(--c-btn);
+  --color-btn-hover: var(--c-btn-hover);
+  --color-btn-off: var(--c-btn-off);
+  --color-on-btn: var(--c-on-btn);
+  --color-accent-2: var(--c-accent);
+  --color-accent-ink: var(--c-accent-ink);
+  --color-error-2: var(--c-error);
+  --shadow-soft: var(--c-shadow);
+  --shadow-lift: var(--c-shadow-lift);
+}
+
+/* Темна тема (за замовчуванням) — значення з мокапів, колонка «Темна тема» */
+:root {
+  color-scheme: dark;
+  --c-bg: #161A2E;
+  --c-surface: #20253D;
+  --c-ink: #EEF0F8;
+  --c-muted: #A9AFC4;
+  --c-faint: #5F6580;
+  --c-line: #353A52;
+  --c-field: #8A90A8;
+  --c-btn: #A5A8F0;
+  --c-btn-hover: #C3C5F7;
+  --c-btn-off: #2E3250;
+  --c-on-btn: #161A2E;
+  --c-accent: #3CC7B2;
+  --c-accent-ink: #3CC7B2;
+  --c-error: #FF8A80;
+  --c-shadow: 0 1px 2px rgb(0 0 0 / .25), 0 8px 24px rgb(0 0 0 / .18);
+  --c-shadow-lift: 0 2px 4px rgb(0 0 0 / .3), 0 16px 40px rgb(0 0 0 / .3);
+}
+
+/* Світла тема — колонка «Світла тема» */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --c-bg: #F4F5FB;
+  --c-surface: #FFFFFF;
+  --c-ink: #161A2E;
+  --c-muted: #525870;
+  --c-faint: #9AA0B4;
+  --c-line: #D5D8E3;
+  --c-field: #7A8099;
+  --c-btn: #3D3FA8;
+  --c-btn-hover: #2D2F8A;
+  --c-btn-off: #DCDDF0;
+  --c-on-btn: #FFFFFF;
+  --c-accent: #0F8A7A;
+  --c-accent-ink: #0D7F70; /* темніший відтінок бірюзи для тексту: контраст 4.9:1 */
+  --c-error: #C9302C;
+  --c-shadow: 0 1px 2px rgb(22 26 46 / .04), 0 8px 24px rgb(22 26 46 / .06);
+  --c-shadow-lift: 0 2px 4px rgb(22 26 46 / .06), 0 16px 40px rgb(22 26 46 / .12);
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--c-bg);
+  color: var(--c-ink);
+  transition: background-color .3s ease, color .3s ease;
+}
+
+@keyframes toast { 0% { opacity: 0; transform: translateY(12px) scale(.9) } 15%, 80% { opacity: 1; transform: none } 100% { opacity: 0; transform: translateY(-16px) } }
+@keyframes pop { 0% { transform: scale(.6); opacity: 0 } 60% { transform: scale(1.08); opacity: 1 } 100% { transform: scale(1) } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(12px) } to { opacity: 1; transform: none } }
+@keyframes grow { from { transform: scaleX(0) } to { transform: scaleX(1) } }
+
+@utility animate-toast { animation: toast 1.8s ease-out forwards; }
+@utility animate-pop { animation: pop .35s ease-out; }
+@utility animate-fade-up { animation: fade-up .45s cubic-bezier(.2,.7,.3,1) both; }
+@utility animate-grow { animation: grow .9s cubic-bezier(.2,.7,.3,1) both; transform-origin: left; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; transition-duration: 1ms !important; }
+}
